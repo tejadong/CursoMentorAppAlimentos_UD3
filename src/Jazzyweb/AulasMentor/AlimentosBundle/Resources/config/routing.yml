@@ -1,3 +1,19 @@
 JAMAB_homepage:
-    path:     /
-    defaults: { _controller: JazzywebAulasMentorAlimentosBundle:Default:index }
+  path:     /
+  defaults: { _controller: JazzywebAulasMentorAlimentosBundle:Default:index }
+
+JAMAB_listar:
+  path:  /listar
+  defaults: { _controller: JazzywebAulasMentorAlimentosBundle:Default:listar }
+
+JAMAB_insertar:
+  path:  /insertar
+  defaults: { _controller: JazzywebAulasMentorAlimentosBundle:Default:insertar }
+
+JAMAB_buscar:
+  path:  /buscar
+  defaults: { _controller: JazzywebAulasMentorAlimentosBundle:Default:buscarPorNombre }
+
+JAMAB_ver:
+  path:  /ver/{id}
+  defaults: { _controller: JazzywebAulasMentorAlimentosBundle:Default:ver }
