@@ -6,7 +6,7 @@
     </tr>
     {% for alimento in alimentos %}
         <tr>
-            <td>{{ alimento.nombre }}</td>
+            <td><a href="{{ path('JAMAB_ver', { 'id': alimento.id }) }}">{{ alimento.nombre }}</a></td>
             <td>{{ alimento.energia }}</td>
             <td>{{ alimento.grasatotal }}</td>
         </tr>
