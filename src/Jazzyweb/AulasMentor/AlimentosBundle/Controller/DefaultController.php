@@ -183,4 +183,15 @@ class DefaultController extends Controller
                 );
 
     }
+
+    public function testInfoSenderAction()
+    {
+        $infosender = $this->get('jamab.infosender');
+
+        $infosender->send('%Manzana%', 'tejadong@gmail.com');
+
+        return new \Symfony\Component\HttpFoundation\Response(
+            '<html><body><h2>Se ha enviado información a
+              juandalibaba@gmail.com</h2></body></html>');
+    }
 }

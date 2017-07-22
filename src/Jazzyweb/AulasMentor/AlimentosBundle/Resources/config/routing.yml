@@ -25,3 +25,7 @@ JAMAB_buscarCombinada:
 JAMAB_ver:
   path:  /ver/{id}
   defaults: { _controller: JazzywebAulasMentorAlimentosBundle:Default:ver }
+
+JAMAB_testinfosender:
+  path:  /testinfosender
+  defaults: { _controller: JazzywebAulasMentorAlimentosBundle:Default:testInfoSender }

@@ -5,6 +5,7 @@
 
 parameters:
   jamab.model.class: Jazzyweb\AulasMentor\AlimentosBundle\Model\Model
+  jamab.infosender.class: Jazzyweb\AulasMentor\AlimentosBundle\Services\InfoSender
 
 services:
   jamab.model:
@@ -14,3 +15,7 @@ services:
       - '%database_user%'
       - '%database_password%'
       - '%database_host%'
+
+  jamab.infosender:
+    class: '%jamab.infosender.class%'
+    arguments: [ '@jamab.model', '@mailer' ]
