@@ -40,8 +40,52 @@ class Model {
     public function buscarAlimentosPorNombre($nombre) {
         $nombre = htmlspecialchars($nombre);
 
-        $sql = "select * from alimentos where nombre like '" . $nombre . "' order
-         by energia desc";
+        $sql = "select * from alimentos 
+                where nombre like '" . $nombre . "'
+                order by energia desc";
+
+        $result = mysqli_query($this->conexion, $sql);
+
+        $alimentos = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $alimentos[] = $row;
+        }
+
+        return $alimentos;
+    }
+
+    public function buscarAlimentosPorEnergia($energia) {
+        $energia = htmlspecialchars($energia);
+
+        $sql = "select * from alimentos
+                where energia like '" . $energia . "' 
+                order by energia desc";
+
+        $result = mysqli_query($this->conexion, $sql);
+
+        $alimentos = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $alimentos[] = $row;
+        }
+
+        return $alimentos;
+    }
+
+    public function buscarAlimentosPorCombinacion($nombre, $energia) {
+        $nombre = htmlspecialchars($nombre);
+        $energia = htmlspecialchars($energia);
+
+        $where = "1=1";
+
+        if ($nombre != '') {
+            $where .= " and nombre like '" . $nombre . "'";
+        }
+
+        if ($energia != '') {
+            $where .= " and energia like '" . $energia . "'";
+        }
+
+        $sql = "select * from alimentos where " . $where . " order by energia desc";
 
         $result = mysqli_query($this->conexion, $sql);
 
