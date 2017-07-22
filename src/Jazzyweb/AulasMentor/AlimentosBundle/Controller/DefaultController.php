@@ -103,6 +103,52 @@ class DefaultController extends Controller
                 );
     }
 
+    public function buscarPorEnergiaAction()
+    {
+        $params = array(
+            'energia' => '',
+            'resultado' => array(),
+        );
+
+        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
+            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $params['energia'] = $_POST['energia'];
+            $params['resultado'] = $m->buscarAlimentosPorEnergia($_POST['energia']);
+        }
+        return
+            $this
+                ->render(
+                    'JazzywebAulasMentorAlimentosBundle:Default:buscarPorEnergia.html.twig',
+                    $params
+                );
+    }
+
+    public function buscarPorCombinacionAction()
+    {
+        $params = array(
+            'nombre' => '',
+            'energia' => '',
+            'resultado' => array(),
+        );
+
+        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
+            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $params['nombre'] = $_POST['nombre'];
+            $params['energia'] = $_POST['energia'];
+            $params['resultado'] = $m->buscarAlimentosPorCombinacion($_POST['nombre'], $_POST['energia']);
+        }
+        return
+            $this
+                ->render(
+                    'JazzywebAulasMentorAlimentosBundle:Default:buscarPorCombinacion.html.twig',
+                    $params
+                );
+    }
+
     public function verAction($id)
     {
         $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
