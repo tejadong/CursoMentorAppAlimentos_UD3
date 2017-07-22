@@ -1,4 +1,20 @@
-services:
+#services:
 #    jazzyweb_aulas_mentor_alimentos.example:
 #        class: Jazzyweb\AulasMentor\AlimentosBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+parameters:
+  jamab.database_name: appalimentos
+  jamab.database_user: root
+  jamab.database_password: oretania
+  jamab.database_host: localhost
+  jamab.model.class: Jazzyweb\AulasMentor\AlimentosBundle\Model\Model
+
+services:
+  jamab.model:
+     class: '%jamab.model.class%'
+     arguments:
+       - '%jamab.database_name%'
+       - '%jamab.database_user%'
+       - '%jamab.database_password%'
+       - '%jamab.database_host%'

@@ -26,8 +26,10 @@ class DefaultController extends Controller
 
     public function listarAction()
     {
-        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
-            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
+//        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
+//            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
+
+        $m = $this->get('jamab.model');
 
         $params = array(
             'alimentos' => $m->dameAlimentos(),
@@ -51,8 +53,10 @@ class DefaultController extends Controller
             'grasa' => '',
         );
 
-        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
-            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
+//        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
+//            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
+
+        $m = $this->get('jamab.model');
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -88,8 +92,10 @@ class DefaultController extends Controller
             'resultado' => array(),
         );
 
-        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
-            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
+//        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
+//            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
+
+        $m = $this->get('jamab.model');
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $params['nombre'] = $_POST['nombre'];
@@ -110,8 +116,10 @@ class DefaultController extends Controller
             'resultado' => array(),
         );
 
-        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
-            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
+//        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
+//            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
+
+        $m = $this->get('jamab.model');
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $params['energia'] = $_POST['energia'];
@@ -133,8 +141,10 @@ class DefaultController extends Controller
             'resultado' => array(),
         );
 
-        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
-            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
+//        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
+//            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
+
+        $m = $this->get('jamab.model');
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $params['nombre'] = $_POST['nombre'];
@@ -151,8 +161,10 @@ class DefaultController extends Controller
 
     public function verAction($id)
     {
-        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
-            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
+//        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
+//            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
+
+        $m = $this->get('jamab.model');
 
         $alimento = $m->dameAlimento($id);
 
