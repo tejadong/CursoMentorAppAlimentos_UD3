@@ -14,6 +14,14 @@ JAMAB_buscar:
   path:  /buscar
   defaults: { _controller: JazzywebAulasMentorAlimentosBundle:Default:buscarPorNombre }
 
+JAMAB_buscarEnergia:
+  path:  /buscar-por-energia
+  defaults: { _controller: JazzywebAulasMentorAlimentosBundle:Default:buscarPorEnergia }
+
+JAMAB_buscarCombinada:
+  path:  /buscar-combinada
+  defaults: { _controller: JazzywebAulasMentorAlimentosBundle:Default:buscarPorCombinacion }
+
 JAMAB_ver:
   path:  /ver/{id}
   defaults: { _controller: JazzywebAulasMentorAlimentosBundle:Default:ver }
