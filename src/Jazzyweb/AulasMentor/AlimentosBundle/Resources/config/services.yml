@@ -6,6 +6,7 @@
 parameters:
   jamab.model.class: Jazzyweb\AulasMentor\AlimentosBundle\Model\Model
   jamab.infosender.class: Jazzyweb\AulasMentor\AlimentosBundle\Services\InfoSender
+  jamab.wikiservice.class: Jazzyweb\AulasMentor\AlimentosBundle\Services\WikiService
 
 services:
   jamab.model:
@@ -19,3 +20,7 @@ services:
   jamab.infosender:
     class: '%jamab.infosender.class%'
     arguments: [ '@jamab.model', '@mailer' ]
+
+  jamab.wikiservice:
+    class: '%jamab.wikiservice.class%'
+    arguments: [ 'https://es.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&rvsection=0&titles=']

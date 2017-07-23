@@ -29,3 +29,7 @@ JAMAB_ver:
 JAMAB_testinfosender:
   path:  /testinfosender
   defaults: { _controller: JazzywebAulasMentorAlimentosBundle:Default:testInfoSender }
+
+JAMAB_wiki:
+  path:  /wiki
+  defaults: { _controller: JazzywebAulasMentorAlimentosBundle:Default:wiki }

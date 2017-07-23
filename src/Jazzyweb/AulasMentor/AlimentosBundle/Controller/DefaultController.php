@@ -3,8 +3,7 @@
 namespace Jazzyweb\AulasMentor\AlimentosBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Jazzyweb\AulasMentor\AlimentosBundle\Model\Model;
-use Jazzyweb\AulasMentor\AlimentosBundle\Config\Config;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class DefaultController extends Controller
@@ -190,8 +189,23 @@ class DefaultController extends Controller
 
         $infosender->send('%Manzana%', 'tejadong@gmail.com');
 
-        return new \Symfony\Component\HttpFoundation\Response(
-            '<html><body><h2>Se ha enviado información a
-              juandalibaba@gmail.com</h2></body></html>');
+        return new Response('<html><body><h2>Se ha enviado información a tejadong@gmail.com</h2></body></html>');
     }
+
+    public function wikiAction()
+    {
+        $wikiService = $this->get("jamab.wikiservice");
+        $infoWiki = $wikiService->cargarPaginaWiki('manzana');;
+
+        return
+            $this
+                ->render(
+                    'JazzywebAulasMentorAlimentosBundle:Default:pruebasWikiService.html.twig',
+                    array(
+                        'data' => $infoWiki
+                    )
+                );
+
+    }
+
 }
