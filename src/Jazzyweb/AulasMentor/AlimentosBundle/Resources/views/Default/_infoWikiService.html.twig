@@ -1,0 +1,8 @@
+<hr>
+<h1>Información Wikipedia</h1>
+<hr>
+{% if data.error %}
+    {{ data.error }}
+{% else %}
+    {{ data.peticion.text | raw }}
+{% endif %}

@@ -16,8 +16,7 @@ class DefaultController extends Controller
             'fecha' => date('d-m-yy'),
         );
 
-        return
-            $this->render(
+        return $this->render(
                 'JazzywebAulasMentorAlimentosBundle:Default:index.html.twig',
                 $params
             );
@@ -34,8 +33,7 @@ class DefaultController extends Controller
             'alimentos' => $m->dameAlimentos(),
         );
 
-        return
-            $this->render(
+        return $this->render(
                 'JazzywebAulasMentorAlimentosBundle:Default:mostrarAlimentos.html.twig',
                 $params
             );
@@ -76,9 +74,7 @@ class DefaultController extends Controller
                                    Revisa el formulario';
             }
         }
-        return
-            $this
-                ->render(
+        return $this->render(
                     'JazzywebAulasMentorAlimentosBundle:Default:formInsertar.html.twig',
                     $params
                 );
@@ -100,9 +96,7 @@ class DefaultController extends Controller
             $params['nombre'] = $_POST['nombre'];
             $params['resultado'] = $m->buscarAlimentosPorNombre($_POST['nombre']);
         }
-        return
-            $this
-                ->render(
+        return $this ->render(
                     'JazzywebAulasMentorAlimentosBundle:Default:buscarPorNombre.html.twig',
                     $params
                 );
@@ -124,9 +118,7 @@ class DefaultController extends Controller
             $params['energia'] = $_POST['energia'];
             $params['resultado'] = $m->buscarAlimentosPorEnergia($_POST['energia']);
         }
-        return
-            $this
-                ->render(
+        return $this->render(
                     'JazzywebAulasMentorAlimentosBundle:Default:buscarPorEnergia.html.twig',
                     $params
                 );
@@ -150,9 +142,7 @@ class DefaultController extends Controller
             $params['energia'] = $_POST['energia'];
             $params['resultado'] = $m->buscarAlimentosPorCombinacion($_POST['nombre'], $_POST['energia']);
         }
-        return
-            $this
-                ->render(
+        return $this->render(
                     'JazzywebAulasMentorAlimentosBundle:Default:buscarPorCombinacion.html.twig',
                     $params
                 );
@@ -172,11 +162,10 @@ class DefaultController extends Controller
             throw new AccessDeniedHttpException();
         }
 
-        $params = $alimento;
+        $params['alimento'] = $alimento;
+        $params['data'] = $this->get("jamab.wikiservice")->cargarPaginaWiki($alimento['nombre']);
 
-        return
-            $this
-                ->render(
+        return $this->render(
                     'JazzywebAulasMentorAlimentosBundle:Default:verAlimento.html.twig',
                     $params
                 );
@@ -194,17 +183,12 @@ class DefaultController extends Controller
 
     public function wikiAction()
     {
-        $wikiService = $this->get("jamab.wikiservice");
-        $infoWiki = $wikiService->cargarPaginaWiki('manzana');;
-
-        return
-            $this
-                ->render(
-                    'JazzywebAulasMentorAlimentosBundle:Default:pruebasWikiService.html.twig',
-                    array(
-                        'data' => $infoWiki
-                    )
-                );
+        return $this->render(
+            'JazzywebAulasMentorAlimentosBundle:Default:pruebasWikiService.html.twig',
+            array(
+                'data' => $this->get("jamab.wikiservice")->cargarPaginaWiki('pera')
+            )
+        );
 
     }
 
