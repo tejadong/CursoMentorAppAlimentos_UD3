@@ -32,28 +32,35 @@ class WikiService {
 
     public function cargarPaginaWiki($alimento) {
 
-        $url = $this->wikiBaseURL . $alimento;
+        $urlPagWiki = $this->wikiBaseURL . $alimento;
 
-        $peticionPagWiki = $this->peticionCURL($url);
+        $peticionPagWiki = $this->peticionCURL($urlPagWiki);
 
         if (!empty($peticionPagWiki['error']) || ($peticionPagWiki['http_status'] != '304' && $peticionPagWiki['http_status'] != '200')) {
             return $peticionPagWiki['error'];
         } else {
             $peticionPagWiki = (array) json_decode($peticionPagWiki['peticion']);
             $peticionPagWiki = (array) $peticionPagWiki['query'];
-            $peticionPagWiki = array_values((array) $peticionPagWiki['pages']);
-            $peticionPagWiki = $peticionPagWiki[0];
-            $peticionPagWiki->revisions = array_values((array)$peticionPagWiki->revisions[0]);
+            $peticionPagWiki = (array) $peticionPagWiki['pages'];
 
-            $urlParseador = 'https://es.wikipedia.org/w/api.php?action=parse&format=json&contentmodel=' . $peticionPagWiki->revisions[1] .'&text=' . urlencode($peticionPagWiki->revisions[2]);
-            $peticionParseadaWiki = $this->peticionCURL($urlParseador);
-            $peticionParseadaWiki['peticion'] = (array) json_decode($peticionParseadaWiki['peticion']);
-            $peticionParseadaWiki['peticion'] = (array) $peticionParseadaWiki['peticion']['parse'];
-            $peticionParseadaWiki['peticion']['text'] = array_values((array) $peticionParseadaWiki['peticion']['text']);
-            $peticionParseadaWiki['peticion']['text'] =$peticionParseadaWiki['peticion']['text'][0];
+            if (key($peticionPagWiki) != '-1') {
+                $peticionPagWiki = array_values($peticionPagWiki);
+                $peticionPagWiki = $peticionPagWiki[0];
+                $peticionPagWiki->revisions = array_values((array)$peticionPagWiki->revisions[0]);
 
-            return $peticionParseadaWiki;
+                $urlParseador = 'https://es.wikipedia.org/w/api.php?action=parse&format=json&contentmodel=' . $peticionPagWiki->revisions[1] .'&text=' . urlencode($peticionPagWiki->revisions[2]);
+                $peticionParseadaWiki = $this->peticionCURL($urlParseador);
+                $peticionParseadaWiki['peticion'] = (array) json_decode($peticionParseadaWiki['peticion']);
+                $peticionParseadaWiki['peticion'] = (array) $peticionParseadaWiki['peticion']['parse'];
+                $peticionParseadaWiki['peticion']['text'] = array_values((array) $peticionParseadaWiki['peticion']['text']);
+                $peticionParseadaWiki['peticion']['text'] =$peticionParseadaWiki['peticion']['text'][0];
+
+            } else {
+                return array('error' => 'No se encontró información en Wikipedia sobre ' . $alimento . '.');
+            }
         }
+
+        return $peticionParseadaWiki;
     }
 
     public function getPaginaWiki() {
