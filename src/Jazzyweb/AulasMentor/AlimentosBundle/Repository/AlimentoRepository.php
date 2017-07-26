@@ -3,6 +3,7 @@
 namespace Jazzyweb\AulasMentor\AlimentosBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Jazzyweb\AulasMentor\AlimentosBundle\Entity\Alimento;
 
 /**
  * AlimentoRepository
@@ -12,4 +13,77 @@ use Doctrine\ORM\EntityRepository;
  */
 class AlimentoRepository extends EntityRepository
 {
+    public function dameAlimentos() {
+        $em = $this->getEntityManager();
+
+        return $em->createQueryBuilder()
+                ->select('a')
+                ->from('JazzywebAulasMentorAlimentosBundle:Alimento', 'a')
+                ->orderBy('a.energia')
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function buscarAlimentosPorNombre($nombre) {
+        $em = $this->getEntityManager();
+        return $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->findByNombre($nombre);
+    }
+
+    public function buscarAlimentosPorEnergia($energia) {
+        $em = $this->getEntityManager();
+        return $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->findByEnergia($energia);
+    }
+
+    public function buscarAlimentosPorCombinacion($nombre, $energia) {
+        $em = $this->getEntityManager();
+
+        $alimentos = $em->createQueryBuilder()
+                        ->select('a')
+                        ->from('JazzywebAulasMentorAlimentosBundle:Alimento', 'a');
+
+        $alimentos->where('1=1');
+
+        if ($nombre != '') {
+            $alimentos->andWhere('a.nombre LIKE :nombre');
+        }
+
+        if ($energia != '') {
+            $alimentos->andWhere('a.energia LIKE :energia');
+        }
+
+        if ($nombre != '') {
+            $alimentos->setParameter('nombre', $nombre .'%');
+        }
+
+        if ($energia != '') {
+            $alimentos->setParameter('energia', $energia .'%');
+        }
+
+        $alimentos->orderBy('a.energia');
+
+        return  $alimentos ->getQuery()->getResult();
+    }
+
+    public function dameAlimento($id) {
+        $em = $this->getEntityManager();
+        return $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->find($id);
+    }
+
+    public function insertarAlimento($n, $e, $p, $hc, $f, $g) {
+        $alimento = new Alimento();
+        $alimento->setNombre($n);
+        $alimento->setEnergia($e);
+        $alimento->setProteina($p);
+        $alimento->setHidratocarbono($hc);
+        $alimento->setFibra($f);
+        $alimento->setGrasatotal($g);
+
+
+        $em = $this->getEntityManager();
+
+        $em->persist($alimento);
+        $em->flush();
+
+        return true;
+    }
 }
