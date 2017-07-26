@@ -27,10 +27,13 @@ class DefaultController extends Controller
 //        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
 //            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
 
-        $m = $this->get('jamab.model');
+//        $m = $this->get('jamab.model');
+
+        $em = $this->getDoctrine()->getManager();
+        $alimentos = $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->dameAlimentos();
 
         $params = array(
-            'alimentos' => $m->dameAlimentos(),
+            'alimentos' => $alimentos,
         );
 
         return $this->render(
@@ -53,12 +56,15 @@ class DefaultController extends Controller
 //        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
 //            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
 
-        $m = $this->get('jamab.model');
+//        $m = $this->get('jamab.model');
+
+        $em = $this->getDoctrine()->getManager();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // comprobar campos formulario
-            if ($m->insertarAlimento($_POST['nombre'], $_POST['energia'],
+
+            if ($em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->insertarAlimento($_POST['nombre'], $_POST['energia'],
                 $_POST['proteina'], $_POST['hc'], $_POST['fibra'], $_POST['grasa'])) {
                 $params['mensaje'] = 'Alimento insertado correctamente';
             } else {
@@ -90,11 +96,13 @@ class DefaultController extends Controller
 //        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
 //            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
 
-        $m = $this->get('jamab.model');
+//        $m = $this->get('jamab.model');
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+
             $params['nombre'] = $_POST['nombre'];
-            $params['resultado'] = $m->buscarAlimentosPorNombre($_POST['nombre']);
+            $params['resultado'] = $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->buscarAlimentosPorNombre($_POST['nombre']);
         }
         return $this ->render(
                     'JazzywebAulasMentorAlimentosBundle:Default:buscarPorNombre.html.twig',
@@ -112,11 +120,13 @@ class DefaultController extends Controller
 //        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
 //            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
 
-        $m = $this->get('jamab.model');
+//        $m = $this->get('jamab.model');
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+
             $params['energia'] = $_POST['energia'];
-            $params['resultado'] = $m->buscarAlimentosPorEnergia($_POST['energia']);
+            $params['resultado'] = $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->buscarAlimentosPorEnergia($_POST['energia']);
         }
         return $this->render(
                     'JazzywebAulasMentorAlimentosBundle:Default:buscarPorEnergia.html.twig',
@@ -135,12 +145,14 @@ class DefaultController extends Controller
 //        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
 //            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
 
-        $m = $this->get('jamab.model');
+//        $m = $this->get('jamab.model');
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+
             $params['nombre'] = $_POST['nombre'];
             $params['energia'] = $_POST['energia'];
-            $params['resultado'] = $m->buscarAlimentosPorCombinacion($_POST['nombre'], $_POST['energia']);
+            $params['resultado'] = $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->buscarAlimentosPorCombinacion($_POST['nombre'], $_POST['energia']);
         }
         return $this->render(
                     'JazzywebAulasMentorAlimentosBundle:Default:buscarPorCombinacion.html.twig',
@@ -153,9 +165,11 @@ class DefaultController extends Controller
 //        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
 //            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
 
-        $m = $this->get('jamab.model');
+//        $m = $this->get('jamab.model');
 
-        $alimento = $m->dameAlimento($id);
+        $em = $this->getDoctrine()->getManager();
+
+        $alimento = $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->dameAlimento($id);
 
         if(!$alimento)
         {
@@ -163,7 +177,7 @@ class DefaultController extends Controller
         }
 
         $params['alimento'] = $alimento;
-        $params['data'] = $this->get("jamab.wikiservice")->cargarPaginaWiki($alimento['nombre']);
+        $params['data'] = $this->get("jamab.wikiservice")->cargarPaginaWiki($alimento->getNombre());
 
         return $this->render(
                     'JazzywebAulasMentorAlimentosBundle:Default:verAlimento.html.twig',
