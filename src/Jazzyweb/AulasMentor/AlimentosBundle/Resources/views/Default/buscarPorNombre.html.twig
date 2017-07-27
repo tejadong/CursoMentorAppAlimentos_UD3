@@ -2,27 +2,37 @@
 
   {% block contenido %}
 
-      <form name="formBusqueda" action="{{ path('JAMAB_buscar') }}" method="POST">
+      {#<form name="formBusqueda" action="{{ path('JAMAB_buscar') }}" method="POST">#}
 
-          <table>
-              <tr>
-                  <td>nombre alimento:</td>
-                  <td>
-                      <input type="text" name="nombre"
-                             value="{{ nombre }}">(puedes utilizar '%' como comodín)
-                  </td>
+          {#<table>#}
+              {#<tr>#}
+                  {#<td>nombre alimento:</td>#}
+                  {#<td>#}
+                      {#<input type="text" name="nombre"#}
+                             {#value="{{ nombre }}">(puedes utilizar '%' como comodín)#}
+                  {#</td>#}
 
-                  <td><input type="submit" value="buscar"></td>
-              </tr>
-          </table>
+                  {#<td><input type="submit" value="buscar"></td>#}
+              {#</tr>#}
+          {#</table>#}
 
-          </table>
+          {#</table>#}
 
+      {#</form>#}
+
+      <form action="{{ path('JAMAB_buscar') }}" method="post" {{ form_enctype(form) }}>
+          <label>Nombre: {{ form_widget(form.nombre) }}</label>
+          {{ form_widget(form._token) }}
+          (puedes utilizar '%' como comodín)
+          <input type="submit" value="Buscar" />
       </form>
 
-      {% if resultado %}
+      <br>
+      <br>
+
+      {% if alimentos %}
           {% include 'JazzywebAulasMentorAlimentosBundle:Default:_tablaAlimentos.html.twig'
-          with {'alimentos': resultado} %}
+          with {'alimentos': alimentos} %}
       {% endif %}
 
   {% endblock %}

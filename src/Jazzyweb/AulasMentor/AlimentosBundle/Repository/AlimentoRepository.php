@@ -24,9 +24,16 @@ class AlimentoRepository extends EntityRepository
                 ->getResult();
     }
 
-    public function buscarAlimentosPorNombre($nombre) {
+    public function buscarAlimentosPorNombre(Alimento $alimento) {
         $em = $this->getEntityManager();
-        return $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->findByNombre($nombre);
+        return $em->createQueryBuilder()
+                    ->select('a')
+                    ->from('JazzywebAulasMentorAlimentosBundle:Alimento', 'a')
+                    ->where('a.nombre LIKE :nombre')
+                    ->setParameter('nombre', $alimento->getNombre().'%')
+                    ->orderBy('a.energia')
+                    ->getQuery()
+                    ->getResult();
     }
 
     public function buscarAlimentosPorEnergia($energia) {

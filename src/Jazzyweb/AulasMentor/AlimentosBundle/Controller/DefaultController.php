@@ -104,28 +104,51 @@ class DefaultController extends Controller
 //        }
     }
 
-    public function buscarPorNombreAction()
+    public function buscarPorNombreAction(Request $request)
     {
-        $params = array(
-            'nombre' => '',
-            'resultado' => array(),
-        );
+//        $params = array(
+//            'nombre' => '',
+//            'resultado' => array(),
+//        );
 
 //        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
 //            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
 
 //        $m = $this->get('jamab.model');
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $em = $this->getDoctrine()->getManager();
+//        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//            $em = $this->getDoctrine()->getManager();
+//
+//            $params['nombre'] = $_POST['nombre'];
+//            $params['resultado'] = $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->buscarAlimentosPorNombre($_POST['nombre']);
+//        }
+//        return $this ->render(
+//                    'JazzywebAulasMentorAlimentosBundle:Default:buscarPorNombre.html.twig',
+//                    $params
+//                );
 
-            $params['nombre'] = $_POST['nombre'];
-            $params['resultado'] = $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->buscarAlimentosPorNombre($_POST['nombre']);
+        $alimentoBuscadoPorNombre = new Alimento();
+        $alimentos = null;
+
+        $form = $this->createForm(new AlimentoType(), $alimentoBuscadoPorNombre);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $alimentos = $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->buscarAlimentosPorNombre($alimentoBuscadoPorNombre);
         }
-        return $this ->render(
-                    'JazzywebAulasMentorAlimentosBundle:Default:buscarPorNombre.html.twig',
-                    $params
-                );
+
+        if (count($alimentos) <= 0) {
+            $this->get('session')->getFlashBag()->add('mensaje','No se han encontrado alimentos con el término buscado.');
+        }
+
+        return $this->render(
+            'JazzywebAulasMentorAlimentosBundle:Default:buscarPorNombre.html.twig',
+            array(
+                'alimentos' => $alimentos,
+                'form' => $form->createView())
+        );
     }
 
     public function buscarPorEnergiaAction()
