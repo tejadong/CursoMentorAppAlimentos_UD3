@@ -2,7 +2,10 @@
 
 namespace Jazzyweb\AulasMentor\AlimentosBundle\Controller;
 
+use Jazzyweb\AulasMentor\AlimentosBundle\Entity\Alimento;
+use Jazzyweb\AulasMentor\AlimentosBundle\Form\Type\AlimentoType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -42,48 +45,63 @@ class DefaultController extends Controller
             );
     }
 
-    public function insertarAction()
+    public function insertarAction(Request $request)
     {
-        $params = array(
-            'nombre' => '',
-            'energia' => '',
-            'proteina' => '',
-            'hc' => '',
-            'fibra' => '',
-            'grasa' => '',
-        );
+//        $params = array(
+//            'nombre' => '',
+//            'energia' => '',
+//            'proteina' => '',
+//            'hc' => '',
+//            'fibra' => '',
+//            'grasa' => '',
+//        );
 
 //        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
 //            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
 
 //        $m = $this->get('jamab.model');
 
-        $em = $this->getDoctrine()->getManager();
+        $alimento = new Alimento();
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $form = $this->createForm(new AlimentoType(), $alimento);
 
-            // comprobar campos formulario
+        $form->handleRequest($request);
 
-            if ($em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->insertarAlimento($_POST['nombre'], $_POST['energia'],
-                $_POST['proteina'], $_POST['hc'], $_POST['fibra'], $_POST['grasa'])) {
-                $params['mensaje'] = 'Alimento insertado correctamente';
-            } else {
-                $params = array(
-                    'nombre' => $_POST['nombre'],
-                    'energia' => $_POST['energia'],
-                    'proteina' => $_POST['proteina'],
-                    'hc' => $_POST['hc'],
-                    'fibra' => $_POST['fibra'],
-                    'grasa' => $_POST['grasa'],
-                );
-                $params['mensaje'] = 'No se ha podido insertar el alimento.
-                                   Revisa el formulario';
-            }
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->insertarAlimento($alimento);
+            $this->get('session')->getFlashBag()->add('mensaje','El formulario era válido');
+            return $this->redirect($this->generateUrl('JAMAB_insertar'));
         }
-        return $this->render(
+
+         return $this->render(
                     'JazzywebAulasMentorAlimentosBundle:Default:formInsertar.html.twig',
-                    $params
+                    array(
+                        'alimento' => $alimento,
+                        'form' => $form->createView())
                 );
+
+//        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//
+//            // comprobar campos formulario
+//
+//            if ($em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->insertarAlimento($_POST['nombre'], $_POST['energia'],
+//                $_POST['proteina'], $_POST['hc'], $_POST['fibra'], $_POST['grasa'])) {
+//                $params['mensaje'] = 'Alimento insertado correctamente';
+//            } else {
+//                $params = array(
+//                    'nombre' => $_POST['nombre'],
+//                    'energia' => $_POST['energia'],
+//                    'proteina' => $_POST['proteina'],
+//                    'hc' => $_POST['hc'],
+//                    'fibra' => $_POST['fibra'],
+//                    'grasa' => $_POST['grasa'],
+//                );
+//                $params['mensaje'] = 'No se ha podido insertar el alimento.
+//                                   Revisa el formulario';
+//            }
+//        }
     }
 
     public function buscarPorNombreAction()

@@ -69,18 +69,16 @@ class AlimentoRepository extends EntityRepository
         return $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->find($id);
     }
 
-    public function insertarAlimento($n, $e, $p, $hc, $f, $g) {
-        $alimento = new Alimento();
-        $alimento->setNombre($n);
-        $alimento->setEnergia($e);
-        $alimento->setProteina($p);
-        $alimento->setHidratocarbono($hc);
-        $alimento->setFibra($f);
-        $alimento->setGrasatotal($g);
-
+    public function insertarAlimento(/*$n, $e, $p, $hc, $f, $g*/ Alimento $alimento) {
+//        $alimento = new Alimento();
+//        $alimento->setNombre($n);
+//        $alimento->setEnergia($e);
+//        $alimento->setProteina($p);
+//        $alimento->setHidratocarbono($hc);
+//        $alimento->setFibra($f);
+//        $alimento->setGrasatotal($g);
 
         $em = $this->getEntityManager();
-
         $em->persist($alimento);
         $em->flush();
 

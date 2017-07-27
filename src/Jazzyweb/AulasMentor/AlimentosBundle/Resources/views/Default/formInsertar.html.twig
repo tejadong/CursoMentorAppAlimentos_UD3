@@ -2,44 +2,93 @@
 
  {% block contenido %}
 
-     {% if mensaje is defined %}
-         <b><span style="color: red;">{{ mensaje }}</span></b>
-     {% endif %}
-     <br/>
-     <form name="formInsertar" action="{{ path('JAMAB_insertar') }}" method="POST">
-         <table>
-             <tr>
-                 <th>Nombre</th>
-                 <th>Energía (Kcal)</th>
-                 <th>Proteina (g)</th>
-                 <th>H. de carbono (g)</th>
-                 <th>Fibra (g)</th>
-                 <th>Grasa total (g)</th>
-             </tr>
-             <tr>
-                 <td>
-                     <input type="text" name="nombre" value="{{ nombre }}" />
-                 </td>
-                 <td>
-                     <input type="text" name="energia" value="{{ energia }}" />
-                 </td>
-                 <td>
-                     <input type="text" name="proteina" value="{{ proteina }}" />
-                 </td>
-                 <td>
-                     <input type="text" name="hc" value="{{ hc }}" />
-                 </td>
-                 <td>
-                     <input type="text" name="fibra" value="{{ fibra }}" />
-                 </td>
-                 <td>
-                     <input type="text" name="grasa" value="{{ grasa }}" />
-                 </td>
-             </tr>
+     {% for flashMessage in app.session.flashbag.get('mensaje') %}
+         <div style="background-color: rosybrown">
+             <b>{{ flashMessage }}</b>
+         </div>
+     {% endfor %}
 
-         </table>
-         <input type="submit" value="insertar" name="insertar" />
-     </form>
+     {{ form_start(form) }}
+     {{ form_errors(form) }}
+
+     <div>
+         {{ form_label(form.nombre) }}
+         {{ form_errors(form.nombre) }}
+         {{ form_widget(form.nombre) }}
+     </div>
+
+     <div>
+         {{ form_label(form.energia) }}
+         {{ form_errors(form.energia) }}
+         {{ form_widget(form.energia) }}
+     </div>
+
+     <div>
+         {{ form_label(form.proteina) }}
+         {{ form_errors(form.proteina) }}
+         {{ form_widget(form.proteina) }}
+     </div>
+
+     <div>
+         {{ form_label(form.hidratocarbono) }}
+         {{ form_errors(form.hidratocarbono) }}
+         {{ form_widget(form.hidratocarbono) }}
+     </div>
+
+     <div>
+         {{ form_label(form.fibra) }}
+         {{ form_errors(form.fibra) }}
+         {{ form_widget(form.fibra) }}
+     </div>
+
+     <div>
+         {{ form_label(form.grasatotal) }}
+         {{ form_errors(form.grasatotal) }}
+         {{ form_widget(form.grasatotal) }}
+     </div>
+
+     {{ form_rest(form) }}
+
+     {{ form_end(form) }}
+
+     {#{% if mensaje is defined %}#}
+         {#<b><span style="color: red;">{{ mensaje }}</span></b>#}
+     {#{% endif %}#}
+     {#<br/>#}
+     {#<form name="formInsertar" action="{{ path('JAMAB_insertar') }}" method="POST">#}
+         {#<table>#}
+             {#<tr>#}
+                 {#<th>Nombre</th>#}
+                 {#<th>Energía (Kcal)</th>#}
+                 {#<th>Proteina (g)</th>#}
+                 {#<th>H. de carbono (g)</th>#}
+                 {#<th>Fibra (g)</th>#}
+                 {#<th>Grasa total (g)</th>#}
+             {#</tr>#}
+             {#<tr>#}
+                 {#<td>#}
+                     {#<input type="text" name="nombre" value="{{ nombre }}" />#}
+                 {#</td>#}
+                 {#<td>#}
+                     {#<input type="text" name="energia" value="{{ energia }}" />#}
+                 {#</td>#}
+                 {#<td>#}
+                     {#<input type="text" name="proteina" value="{{ proteina }}" />#}
+                 {#</td>#}
+                 {#<td>#}
+                     {#<input type="text" name="hc" value="{{ hc }}" />#}
+                 {#</td>#}
+                 {#<td>#}
+                     {#<input type="text" name="fibra" value="{{ fibra }}" />#}
+                 {#</td>#}
+                 {#<td>#}
+                     {#<input type="text" name="grasa" value="{{ grasa }}" />#}
+                 {#</td>#}
+             {#</tr>#}
+
+         {#</table>#}
+         {#<input type="submit" value="insertar" name="insertar" />#}
+     {#</form>#}
      * Los valores deben referirse a 100 g del alimento
 
  {% endblock %}
