@@ -137,10 +137,9 @@ class DefaultController extends Controller
         {
             $em = $this->getDoctrine()->getManager();
             $alimentos = $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->buscarAlimentosPorNombre($alimentoBuscadoPorNombre);
-        }
-
-        if (count($alimentos) <= 0) {
-            $this->get('session')->getFlashBag()->add('mensaje','No se han encontrado alimentos con el término buscado.');
+            if (count($alimentos) <= 0) {
+                $this->get('session')->getFlashBag()->add('mensaje','No se han encontrado alimentos con el término buscado.');
+            }
         }
 
         return $this->render(
@@ -184,10 +183,9 @@ class DefaultController extends Controller
         {
             $em = $this->getDoctrine()->getManager();
             $alimentos = $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->buscarAlimentosPorEnergia($alimentoBuscadoPorEnergia);
-        }
-
-        if (count($alimentos) <= 0) {
-            $this->get('session')->getFlashBag()->add('mensaje','No se han encontrado alimentos con la energía buscada.');
+            if (count($alimentos) <= 0) {
+                $this->get('session')->getFlashBag()->add('mensaje','No se han encontrado alimentos con la energía buscada.');
+            }
         }
 
         return $this->render(
