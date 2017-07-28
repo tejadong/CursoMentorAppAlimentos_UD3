@@ -41,7 +41,7 @@ class AlimentoRepository extends EntityRepository
         return $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->findByEnergia($alimento->getEnergia());
     }
 
-    public function buscarAlimentosPorCombinacion($nombre, $energia) {
+    public function buscarAlimentosPorCombinacion(Alimento $alimento) {
         $em = $this->getEntityManager();
 
         $alimentos = $em->createQueryBuilder()
@@ -50,20 +50,20 @@ class AlimentoRepository extends EntityRepository
 
         $alimentos->where('1=1');
 
-        if ($nombre != '') {
+        if ($alimento->getNombre() != '') {
             $alimentos->andWhere('a.nombre LIKE :nombre');
         }
 
-        if ($energia != '') {
+        if ($alimento->getEnergia() != '') {
             $alimentos->andWhere('a.energia LIKE :energia');
         }
 
-        if ($nombre != '') {
-            $alimentos->setParameter('nombre', $nombre .'%');
+        if ($alimento->getNombre() != '') {
+            $alimentos->setParameter('nombre', $alimento->getNombre() .'%');
         }
 
-        if ($energia != '') {
-            $alimentos->setParameter('energia', $energia .'%');
+        if ($alimento->getEnergia() != '') {
+            $alimentos->setParameter('energia', $alimento->getEnergia() .'%');
         }
 
         $alimentos->orderBy('a.energia');

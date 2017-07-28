@@ -2,35 +2,51 @@
 
   {% block contenido %}
 
-      <form name="formBusqueda" action="{{ path('JAMAB_buscarCombinada') }}" method="POST">
+      {#<form name="formBusqueda" action="{{ path('JAMAB_buscarCombinada') }}" method="POST">#}
 
-          <table>
-              <tr>
-                  <td>nombre alimento:</td>
-                  <td>
-                      <input type="text" name="nombre"
-                             value="{{ nombre }}">(puedes utilizar '%' como comodín)
-                  </td>
-              </tr>
-              <tr>
-                  <td>energía alimento:</td>
-                  <td>
-                      <input type="text" name="energia"
-                             value="{{ energia }}">(puedes utilizar '%' como comodín)
-                  </td>
-              </tr>
-              <tr>
-                  <td><input type="submit" value="buscar"></td>
-              </tr>
-          </table>
+          {#<table>#}
+              {#<tr>#}
+                  {#<td>nombre alimento:</td>#}
+                  {#<td>#}
+                      {#<input type="text" name="nombre"#}
+                             {#value="{{ nombre }}">(puedes utilizar '%' como comodín)#}
+                  {#</td>#}
+              {#</tr>#}
+              {#<tr>#}
+                  {#<td>energía alimento:</td>#}
+                  {#<td>#}
+                      {#<input type="text" name="energia"#}
+                             {#value="{{ energia }}">(puedes utilizar '%' como comodín)#}
+                  {#</td>#}
+              {#</tr>#}
+              {#<tr>#}
+                  {#<td><input type="submit" value="buscar"></td>#}
+              {#</tr>#}
+          {#</table>#}
 
-          </table>
+          {#</table>#}
 
+      {#</form>#}
+
+      {{ form_start(form,
+      {
+          'action': path('JAMAB_buscarCombinada'),
+          'method': 'POST',
+          'attr': {'novalidate': 'novalidate'}
+      })
+      }}
+          <label>Nombre: {{ form_widget(form.nombre) }}</label><br>
+          <label>Energía: {{ form_widget(form.energia) }}</label><br>
+          {{ form_widget(form._token) }}
+          <input type="submit" value="Buscar" />
       </form>
 
-      {% if resultado %}
+      <br>
+      <br>
+
+      {% if alimentos %}
           {% include 'JazzywebAulasMentorAlimentosBundle:Default:_tablaAlimentos.html.twig'
-          with {'alimentos': resultado} %}
+          with {'alimentos': alimentos} %}
       {% endif %}
 
   {% endblock %}

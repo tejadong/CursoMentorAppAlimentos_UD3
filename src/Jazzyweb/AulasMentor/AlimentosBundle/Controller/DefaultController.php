@@ -196,30 +196,51 @@ class DefaultController extends Controller
         );
     }
 
-    public function buscarPorCombinacionAction()
+    public function buscarPorCombinacionAction(Request $request)
     {
-        $params = array(
-            'nombre' => '',
-            'energia' => '',
-            'resultado' => array(),
-        );
+//        $params = array(
+//            'nombre' => '',
+//            'energia' => '',
+//            'resultado' => array(),
+//        );
 
 //        $m = new Model(Config::$mvc_bd_nombre, Config::$mvc_bd_usuario,
 //            Config::$mvc_bd_clave, Config::$mvc_bd_hostname);
 
 //        $m = $this->get('jamab.model');
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $em = $this->getDoctrine()->getManager();
+//        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//            $em = $this->getDoctrine()->getManager();
+//
+//            $params['nombre'] = $_POST['nombre'];
+//            $params['energia'] = $_POST['energia'];
+//            $params['resultado'] = $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->buscarAlimentosPorCombinacion($_POST['nombre'], $_POST['energia']);
+//        }
+//        return $this->render(
+//                    'JazzywebAulasMentorAlimentosBundle:Default:buscarPorCombinacion.html.twig',
+//                    $params
+//                );
+        $alimentoBuscadoPorCombinacion = new Alimento();
+        $alimentos = null;
 
-            $params['nombre'] = $_POST['nombre'];
-            $params['energia'] = $_POST['energia'];
-            $params['resultado'] = $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->buscarAlimentosPorCombinacion($_POST['nombre'], $_POST['energia']);
+        $form = $this->createForm(new AlimentoType(), $alimentoBuscadoPorCombinacion);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $alimentos = $em->getRepository('JazzywebAulasMentorAlimentosBundle:Alimento')->buscarAlimentosPorCombinacion($alimentoBuscadoPorCombinacion);
+            if (count($alimentos) <= 0) {
+                $this->get('session')->getFlashBag()->add('mensaje','No se han encontrado alimentos con el nombre y/o la energía buscada.');
+            }
         }
+
         return $this->render(
-                    'JazzywebAulasMentorAlimentosBundle:Default:buscarPorCombinacion.html.twig',
-                    $params
-                );
+            'JazzywebAulasMentorAlimentosBundle:Default:buscarPorCombinacion.html.twig',
+            array(
+                'alimentos' => $alimentos,
+                'form' => $form->createView())
+        );
     }
 
     public function verAction($id)
