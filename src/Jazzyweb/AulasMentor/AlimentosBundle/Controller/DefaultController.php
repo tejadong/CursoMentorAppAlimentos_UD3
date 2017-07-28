@@ -63,7 +63,7 @@ class DefaultController extends Controller
 
         $alimento = new Alimento();
 
-        $form = $this->createForm(new AlimentoType(), $alimento);
+        $form = $this->createForm(AlimentoType::class , $alimento);
 
         $form->handleRequest($request);
 
@@ -130,7 +130,7 @@ class DefaultController extends Controller
         $alimentoBuscadoPorNombre = new Alimento();
         $alimentos = null;
 
-        $form = $this->createForm(new AlimentoType(), $alimentoBuscadoPorNombre);
+        $form = $this->createForm(AlimentoType::class, $alimentoBuscadoPorNombre);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
@@ -176,7 +176,7 @@ class DefaultController extends Controller
         $alimentoBuscadoPorEnergia = new Alimento();
         $alimentos = null;
 
-        $form = $this->createForm(new AlimentoType(), $alimentoBuscadoPorEnergia);
+        $form = $this->createForm(AlimentoType::class, $alimentoBuscadoPorEnergia);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
@@ -223,7 +223,7 @@ class DefaultController extends Controller
         $alimentoBuscadoPorCombinacion = new Alimento();
         $alimentos = null;
 
-        $form = $this->createForm(new AlimentoType(), $alimentoBuscadoPorCombinacion);
+        $form = $this->createForm(AlimentoType::class, $alimentoBuscadoPorCombinacion);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
