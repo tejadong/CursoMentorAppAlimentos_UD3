@@ -20,10 +20,15 @@
 
       {#</form>#}
 
+      {% for flashMessage in app.session.flashbag.get('mensaje') %}
+          <div style="background-color: rosybrown">
+              <b>{{ flashMessage }}</b>
+          </div>
+      {% endfor %}
+
       <form action="{{ path('JAMAB_buscar') }}" method="post" {{ form_enctype(form) }}>
           <label>Nombre: {{ form_widget(form.nombre) }}</label>
           {{ form_widget(form._token) }}
-          (puedes utilizar '%' como comodín)
           <input type="submit" value="Buscar" />
       </form>
 

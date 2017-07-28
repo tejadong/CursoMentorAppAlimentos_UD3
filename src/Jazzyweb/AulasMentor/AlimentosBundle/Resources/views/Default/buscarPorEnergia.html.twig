@@ -20,6 +20,12 @@
 
       {#</form>#}
 
+      {% for flashMessage in app.session.flashbag.get('mensaje') %}
+          <div style="background-color: rosybrown">
+              <b>{{ flashMessage }}</b>
+          </div>
+      {% endfor %}
+
       <form action="{{ path('JAMAB_buscarEnergia') }}" method="post" {{ form_enctype(form) }}>
           <label>Energía: {{ form_widget(form.energia) }}</label>
           {{ form_widget(form._token) }}
